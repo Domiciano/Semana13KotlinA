@@ -2,19 +2,24 @@ package edu.co.icesi.clase11kotlin.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import edu.co.icesi.clase11kotlin.R
+import androidx.lifecycle.lifecycleScope
 import co.domi.clase10.model.ChatRelationship
 import co.domi.clase10.model.Message
 import co.domi.clase10.model.User
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import edu.co.icesi.clase11kotlin.R
+import edu.co.icesi.clase11kotlin.model.FCMMessage
+import edu.co.icesi.clase11kotlin.model.FCMWrapper
+import edu.co.icesi.semana7kotlina.HTTPSWebUtilDomi
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
+
 
 class ChatActivity : AppCompatActivity(){
 
@@ -89,6 +94,27 @@ class ChatActivity : AppCompatActivity(){
         val message = Message(UUID.randomUUID().toString(), msg, myUser.id, Date().time)
         db.collection("chats").document(currentChat.chatID).collection("messages")
             .document(message.id).set(message)
+
+        //Mandar a FCM
+        //Mandar a FCM
+        lifecycleScope.launch(Dispatchers.IO){
+            val fcmMessage = FCMMessage(UUID.randomUUID().toString(), msg)
+            val wrapper = FCMWrapper("/topics/" + userClicked.username, fcmMessage)
+            val json = Gson().toJson(wrapper)
+            HTTPSWebUtilDomi().POSTtoFCM(json)
+        }
+
+    }
+
+    override fun onResume() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(myUser.username)
+        super.onResume()
+
+    }
+
+    override fun onPause() {
+        FirebaseMessaging.getInstance().subscribeToTopic(myUser.username)
+        super.onPause()
     }
 
     override fun onDestroy() {

@@ -2,6 +2,7 @@ package edu.co.icesi.clase11kotlin.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -10,6 +11,7 @@ import co.domi.clase10.model.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.messaging.FirebaseMessaging
 import edu.co.icesi.clase11kotlin.R
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -17,6 +19,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private var db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
