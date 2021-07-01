@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun login(view: View) {
         val username = usernameET.text.toString()
-        val user = User(UUID.randomUUID().toString(), username)
+        val user = User(UUID.randomUUID().toString(), username, "")
         //Saber si el usuario ya estaba registrado
         val usersRef = db.collection("users")
         val query = usersRef.whereEqualTo("username", username)

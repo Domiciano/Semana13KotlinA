@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.co.icesi.clase11kotlin">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -10,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Clase11Kotlin">
         <activity
+            android:name=".activities.ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -18,12 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ChatActivity"/>
-        <activity android:name=".activities.UserListActivity"/>
+        <activity android:name=".activities.ChatActivity" />
+        <activity android:name=".activities.UserListActivity" />
 
         <service android:name=".services.FCMService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
